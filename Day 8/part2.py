@@ -73,7 +73,7 @@ for line in mb:
 
 
 for line in mb:
-    print("y = {}x + {}".format(line.mb[0],line.mb[1]))
+    #print("y = {}x + {}".format(line.mb[0],line.mb[1]))
     #print(line.coord_pair)
     for potential_location in line.potential_locations:
         x = potential_location[0]
@@ -94,6 +94,6 @@ with open('out.txt', 'w') as f:
         if (i+1) % num_cols == 0 and (i+1) != len(data_array):
             f.write("\n")
 
-print(data_array.count("#"))
+print(len(data_array)-data_array.count("."))
 
 
