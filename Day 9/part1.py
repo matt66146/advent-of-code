@@ -1,3 +1,4 @@
+import time
 
 input = None
 with open("input.txt") as input_file:
@@ -6,6 +7,9 @@ with open("input.txt") as input_file:
 
 data = []
 cur_id = 0
+
+
+start = time.time()
 
 
 for i in range(0,len(input)):
@@ -51,8 +55,10 @@ for i in range(0, len(data)):
         checksum += (data[i] * i)
     #print(checksum)
 
+end = time.time()
 
 print(data)
 print(checksum)
 print(countera)
 print(counterb)
+print(end-start)
