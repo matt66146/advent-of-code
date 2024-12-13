@@ -1,6 +1,7 @@
 from termcolor import colored
+import time
 
-
+start = time.time()
 
 color_index = 0
 colors = "red","green","yellow","blue","magenta","cyan","white"
@@ -230,18 +231,18 @@ for region in regions:
 
         #print(f"P: {perimeter}")
     price = perimeter*len(region.plants)
-    print("Region: {}".format(region.name))
-    print("Num Plants: {}".format(len(region.plants)))
-    print("Perimeter: {}".format(perimeter))
-    print("Price: {}".format(price))
-    print("")
+    #print("Region: {}".format(region.name))
+    #print("Num Plants: {}".format(len(region.plants)))
+    #print("Perimeter: {}".format(perimeter))
+    #print("Price: {}".format(price))
+    #print("")
     total_price += price
     
     
 
 
 
-
+'''
 # Print output
 output = []
 for i in range(0,len(plants)):
@@ -265,7 +266,11 @@ for plant in output:
         print_str = plant
 print(print_str)
 
+'''
+
+end = time.time()
 
 print(total_price)
+print(end-start)
 
 
