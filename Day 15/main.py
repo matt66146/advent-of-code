@@ -13,7 +13,7 @@ class Object:
         self.x = x
         self.y = y
 
-    def try_move(self, direction, tile_map: TileMap,i):
+    def try_move(self, direction, tile_map: TileMap):
         return True
 
     def move(self, direction, tile_map: TileMap):
@@ -42,7 +42,7 @@ class Wall(Object):
     def __init__(self, x, y):
         super().__init__(x, y)
 
-    def try_move(self, direction, tile_map: TileMap,i):
+    def try_move(self, direction, tile_map: TileMap):
         return False
 
 
@@ -50,8 +50,8 @@ class Robot(Object):
     def __init__(self, x, y):
         super().__init__(x, y)
 
-    def try_move(self, direction, tile_map: TileMap,i):
-        if tile_map.data[((self.y * tile_map.width) + self.x) + direction].try_move(direction, tile_map,i):
+    def try_move(self, direction, tile_map: TileMap):
+        if tile_map.data[((self.y * tile_map.width) + self.x) + direction].try_move(direction, tile_map):
             super().move(direction, tile_map)
 
 
@@ -59,7 +59,7 @@ class BoxRight(Object):
     def __init__(self, x, y):
         super().__init__(x, y)
 
-    def check_move_valid(self,list_objects:list,direction, tile_map: TileMap,i):
+    def check_move_valid(self,list_objects:list,direction, tile_map: TileMap):
         my_index = ((self.y * tile_map.width) + self.x)
         next_index = ((self.y * tile_map.width) + self.x) + direction
         if not isinstance(tile_map.data[next_index],Wall):
@@ -69,25 +69,25 @@ class BoxRight(Object):
             if len(list_objects) >= 2:
                 if tile_map.data[my_index-1] != list_objects[-2]:
                     # check left side of box
-                    if not tile_map.data[my_index - 1].check_move_valid(list_objects,direction, tile_map,i):
+                    if not tile_map.data[my_index - 1].check_move_valid(list_objects,direction, tile_map):
                         return []
             else:
                 # check left side of box
-                if not tile_map.data[my_index - 1].check_move_valid(list_objects, direction, tile_map,i):
+                if not tile_map.data[my_index - 1].check_move_valid(list_objects, direction, tile_map):
                     return []
 
             if isinstance(tile_map.data[next_index],BoxRight) or isinstance(tile_map.data[next_index],BoxLeft):
                 #check next box is valid
-                if not tile_map.data[next_index].check_move_valid(list_objects,direction, tile_map,i):
+                if not tile_map.data[next_index].check_move_valid(list_objects,direction, tile_map):
                     return []
         else:
             list_objects = []
 
         return list_objects
 
-    def try_move(self, direction, tile_map: TileMap,i):
+    def try_move(self, direction, tile_map: TileMap):
         if abs(direction) > 1:
-            list_objects = self.check_move_valid([],direction,tile_map,i)
+            list_objects = self.check_move_valid([],direction,tile_map)
             if not list_objects:
                 return False
             else:
@@ -101,7 +101,7 @@ class BoxRight(Object):
 
 
         # Left right
-        if tile_map.data[((self.y * tile_map.width) + self.x) + direction].try_move(direction, tile_map,i):
+        if tile_map.data[((self.y * tile_map.width) + self.x) + direction].try_move(direction, tile_map):
             self.move(direction, tile_map)
             return True
         else:
@@ -114,7 +114,7 @@ class BoxLeft(Object):
     def __init__(self, x, y):
         super().__init__(x, y)
 
-    def check_move_valid(self,list_objects:list,direction, tile_map: TileMap,i):
+    def check_move_valid(self,list_objects:list,direction, tile_map: TileMap):
         my_index = ((self.y * tile_map.width) + self.x)
         next_index = ((self.y * tile_map.width) + self.x) + direction
         if not isinstance(tile_map.data[next_index],Wall):
@@ -124,25 +124,25 @@ class BoxLeft(Object):
             if len(list_objects) >= 2:
                 if tile_map.data[my_index + 1] != list_objects[-2]:
                     # check right side of box
-                    if not tile_map.data[my_index + 1].check_move_valid(list_objects, direction, tile_map,i):
+                    if not tile_map.data[my_index + 1].check_move_valid(list_objects, direction, tile_map):
                         return []
             else:
                 # check right side of box
-                if not tile_map.data[my_index + 1].check_move_valid(list_objects, direction, tile_map,i):
+                if not tile_map.data[my_index + 1].check_move_valid(list_objects, direction, tile_map):
                     return []
 
             if isinstance(tile_map.data[next_index],BoxRight) or isinstance(tile_map.data[next_index],BoxLeft):
                 #check next box is valid
-                if not tile_map.data[next_index].check_move_valid(list_objects,direction, tile_map,i):
+                if not tile_map.data[next_index].check_move_valid(list_objects,direction, tile_map):
                     return []
         else:
             list_objects = []
 
         return list_objects
 
-    def try_move(self, direction, tile_map: TileMap,i):
+    def try_move(self, direction, tile_map: TileMap):
         if abs(direction) > 1:
-            list_objects = self.check_move_valid([],direction,tile_map,i)
+            list_objects = self.check_move_valid([],direction,tile_map)
             if not list_objects:
                 return False
             else:
@@ -156,7 +156,7 @@ class BoxLeft(Object):
 
 
         # Left right
-        if tile_map.data[((self.y * tile_map.width) + self.x) + direction].try_move(direction, tile_map,i):
+        if tile_map.data[((self.y * tile_map.width) + self.x) + direction].try_move(direction, tile_map):
             self.move(direction, tile_map)
             return True
         else:
@@ -166,7 +166,7 @@ class Box(Object):
     def __init__(self, x, y):
         super().__init__(x, y)
 
-    def try_move(self, direction, tile_map: TileMap,i):
+    def try_move(self, direction, tile_map: TileMap):
         if tile_map.data[((self.y * tile_map.width) + self.x) + direction].try_move(direction, tile_map):
             self.move(direction, tile_map)
             return True
@@ -246,7 +246,7 @@ def part1(file_name):
             data.append(Box(x, y))
 
     tile_map = TileMap(data, width, height)
-    print_tile_map(tile_map)
+    #print_tile_map(tile_map)
 
     for direction in inputs:
         if direction == "<":
@@ -263,8 +263,8 @@ def part1(file_name):
         if isinstance(symbol, Box):
             gps_sum += (symbol.y * 100) + symbol.x
 
-    print_tile_map(tile_map)
-    print(gps_sum)
+    #print_tile_map(tile_map)
+    print(f"Part1: {gps_sum}")
 
 
 def part2(file_name):
@@ -320,18 +320,18 @@ def part2(file_name):
             data.append(BoxRight(x, y))
 
     tile_map = TileMap(data, width, height)
-    print_tile_map_p2(tile_map)
+    #print_tile_map_p2(tile_map)
 
     i = 0
     for direction in inputs:
         if direction == "<":
-            robot.try_move(-1, tile_map,i)
+            robot.try_move(-1, tile_map)
         elif direction == ">":
-            robot.try_move(1, tile_map,i)
+            robot.try_move(1, tile_map)
         elif direction == "^":
-            robot.try_move(-width, tile_map,i)
+            robot.try_move(-width, tile_map)
         elif direction == "v":
-            robot.try_move(width, tile_map,i)
+            robot.try_move(width, tile_map)
         # print_tile_map(tile_map)
         i += 1
     gps_sum = 0
@@ -339,15 +339,15 @@ def part2(file_name):
         if isinstance(symbol, BoxLeft):
             gps_sum += (symbol.y * 100) + symbol.x
 
-    print_tile_map_p2(tile_map)
-    print(gps_sum)
+    #print_tile_map_p2(tile_map)
+    print(f"Part2: {gps_sum}")
 
 
 if __name__ == "__main__":
     def main():
         #part1("test_p1.txt")
         #part1("test.txt")
-        #part1("input.txt")
+        part1("input.txt")
         part2("input.txt")
 
 
