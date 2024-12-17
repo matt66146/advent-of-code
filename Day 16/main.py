@@ -11,7 +11,7 @@ class Graph:
         self.vertices[v1][v2] = cost
         #print(len(self.vertices.keys()))
 
-    def shortest_path(self, src, dest):
+    def shortest_path_part_1(self, src, dest):
         size = len(self.vertices.keys())
         pq = [(0, src)]
         dist = {}
@@ -39,39 +39,60 @@ class Graph:
                     prev[v].append(current_v)
         #print(prev)
 
+    def shortest_path_part_2(self, src, dest):
+        size = len(self.vertices.keys())
+        pq = [(0, src)]
+        dist = {}
+        prev = {}
+        for key in self.vertices:
+            dist[key] = float('inf')
+        for key in self.vertices:
+            prev[key] = []
+        dist[src] = 0
+        potential_shortest_paths = []
+
+        while pq:
+            current_cost, current_v = heapq.heappop(pq)
+            if current_v[:-1] == dest:
+                print(f"V: {current_v} Cost: {current_cost}")
+                potential_shortest_paths.append((current_v,current_cost))
 
 
+            for v in self.vertices[current_v]:
+                cost = self.vertices[current_v][v] + current_cost
+                if cost < dist[v]:
+                    #print(v)
+                    prev[v] = [current_v]
+                    dist[v] = cost
+                    heapq.heappush(pq, (dist[v], v))
+                elif cost == dist[v]:
+                    prev[v].append(current_v)
+        #print(prev)
+
+        potential_shortest_paths.sort(key=lambda x: x[1])
+        lowest_cost = potential_shortest_paths[0][1]
+        nodes_walked = []
+        for path in potential_shortest_paths:
+            if path[1] == lowest_cost:
+                nodes_walked += walk_backwards(prev, path[0], src)
+            else:
+                break
+        nodes_walked = set(nodes_walked)
+        print(nodes_walked)
+        print(len(nodes_walked))
+
+
+def walk_backwards(prev, node, src):
+    nodes_walked = [node[:-1]]
+    if src[:-1] == node[:-1]:
+        return nodes_walked
+    for n in prev[node]:
+        nodes_walked += walk_backwards(prev, n, src)
+
+    return nodes_walked
 
 
 def main():
-    '''
-    graph = Graph()
-    graph.add_edge("A1","A2",1000)
-    graph.add_edge("A1", "A4", 1000)
-
-    graph = Graph()
-    graph.vertices = {
-        "A1": {"A2": 1000, "A4": 1000, "D1": 1},
-        "A2": {"A1": 1000, "A3": 1000},
-        "A3": {"A2": 1000, "A4": 1000, "B3": 1},
-        "A4": {"A1": 1000, "A3": 1000},
-
-        "B1": {"B2": 1000, "B4": 1000, "A1": 1},
-        "B2": {"B1": 1000, "B3": 1000, "C2": 1},
-        "B3": {"B2": 1000, "B4": 1000},
-        "B4": {"B1": 1000, "B3": 1000},
-
-        "C1": {"C2": 1000, "C4": 1000},
-        "C2": {"C1": 1000, "C3": 1000},
-        "C3": {"C2": 1000, "C4": 1000},
-        "C4": {"C1": 1000, "C3": 1000, "B4": 1},
-
-        "D1": {"D2": 1000, "D4": 1000},
-        "D2": {"D1": 1000, "D3": 1000, "C2": 1},
-        "D3": {"D2": 1000, "D4": 1000, "A3": 1},
-        "D4": {"D1": 1000, "D3": 1000},
-    }
-    '''
     graph = Graph()
     start = None
     end = None
@@ -83,8 +104,7 @@ def main():
                 data.append(point)
         height = len(data) // width
 
-    print(width)
-    print(height)
+
     for h in range(0,height):
         for w in range(0,width):
             index = (h*width) + w
@@ -133,8 +153,8 @@ def main():
 
 
 
-    print(graph.shortest_path(start,end))
-
+    #print(graph.shortest_path_part_1(start,end))
+    print(graph.shortest_path_part_2(start,end))
 
 if __name__ == '__main__':
     main()
