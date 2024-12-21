@@ -44,13 +44,12 @@ class Graph:
         while pq:
             current_cost, current_v = heapq.heappop(pq)
             if current_v == dest:
-                return current_cost
+                return current_cost,prev
                 # print(current_cost)
 
             for v in self.vertices[current_v]:
                 cost = self.vertices[current_v][v] + current_cost
                 if cost < dist[v]:
-                    # print(v)
                     prev[v] = [current_v]
                     dist[v] = cost
                     heapq.heappush(pq, (dist[v], v))
@@ -91,18 +90,35 @@ def calculate_dot_path_costs(data,width,height):
                 else:
                     dots[(w,h)] = None
 
-    base_cost = graph.shortest_path_part_1(start, end)
 
+    '''
     for key in dots:
-        dots[key] = graph.shortest_path_part_1(f"({key[0]},{key[1]})", end)
-    dots[s] = graph.shortest_path_part_1(start, end)
+        dots[key],_ = graph.shortest_path_part_1(f"({key[0]},{key[1]})", end)
+    '''
+    dots[s],path = graph.shortest_path_part_1(start, end)
+    #print(path)
+    #print(len(path.keys()))
+
+    prev = end
+    cur_distance = 0
+
+    while len(path[prev]) > 0 :
+        dots[eval(prev)] = cur_distance
+        prev = path[prev][0]
+        cur_distance += 1
+
+
+
+
+    #print(dots)
+    base_cost = dots[s]
     return base_cost, dots
 
 def print_map(data,dots,width,height,cheats):
     row = " "
     for i in range(0,width):
         row +=("{:5n}".format(i))
-    print(row)
+    #print(row)
 
     cheat_walls = []
     for key in cheats:
@@ -127,7 +143,7 @@ def print_map(data,dots,width,height,cheats):
 
 
 
-        print(row)
+        #print(row)
 
 def calculate_cheats(data,dots,width,height,min_saved_time):
     cheats = {}
@@ -158,7 +174,7 @@ def calculate_cheats(data,dots,width,height,min_saved_time):
                 if data[((key[1])*width) + (key[0] + 1)] == "#":
                     cheats[(key,(key[0] + 2, key[1]))] = (saved_time,((key[0] + 1), (key[1])))
 
-
+        '''
         #add E check
         # up
         if ((key[1] - 2)*width) + key[0] > 0:
@@ -188,6 +204,7 @@ def calculate_cheats(data,dots,width,height,min_saved_time):
                 if saved_time >= min_saved_time:
                     if data[((key[1])*width) + (key[0] + 1)] == "#":
                         cheats[(key,key[0] - 2, key[1])] = (saved_time, ((key[0] + 1), (key[1])))
+        '''
     return cheats
 
 
@@ -195,15 +212,19 @@ def calculate_cheats(data,dots,width,height,min_saved_time):
 
 if __name__ == "__main__":
     def main():
+        start = time.time()
+        min_saved_time = 100
         data, width, height = load_map("input.txt")
         base_cost, dots= calculate_dot_path_costs(data,width,height)
-        print(dots)
-        print(f"Base Cost: {base_cost}")
-        print_map(data,dots,width,height, {})
-        cheats = calculate_cheats(data,dots,width,height,100)
-        print(cheats)
-        print_map(data,dots,width,height,cheats)
-        print(len(cheats))
+        #print(len(dots))
+        #return
+        #print(dots)
+        #print(f"Base Cost: {base_cost}")
+        #print_map(data,dots,width,height, {})
+        cheats = calculate_cheats(data,dots,width,height,min_saved_time)
+        #print(cheats)
+        #print_map(data,dots,width,height,cheats)
+        print(f"Number of cheats that save at least {min_saved_time} seconds: {len(cheats)}")
 
         cheat_times = {}
 
@@ -213,8 +234,9 @@ if __name__ == "__main__":
             else:
                 cheat_times[cheats[key][0]] = 1
 
-        sorted_dict = dict(sorted(cheat_times.items()))
-        print(sorted_dict)
-
+        #sorted_dict = dict(sorted(cheat_times.items()))
+        #print(sorted_dict)
+        end = time.time()
+        print(f"Total elapsed time: {round(end-start,2)} seconds")
 
     main()
