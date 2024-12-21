@@ -16,13 +16,13 @@ def load_data(file_string):
 @functools.cache
 def check_pattern(towels, pattern):
     if len(pattern) == 0:
-        return True
+        return 1
     else:
+        num_combos = 0
         for towel in towels:
             if towel in pattern[:len(towel)]:
-                if check_pattern(towels, pattern[len(towel):]):
-                    return True
-    return False
+                num_combos += check_pattern(towels, pattern[len(towel):])
+    return num_combos
 
 
 if __name__ == "__main__":
@@ -32,11 +32,10 @@ if __name__ == "__main__":
         towels = tuple(towels)
         num_possible = 0
         for pattern in patterns:
-            if check_pattern(towels, pattern):
-                num_possible += 1
-                print(f"{pattern} is possible.")
-            else:
-                print(f"{pattern} is impossible.")
+            pattern_possible = check_pattern(towels, pattern)
+            num_possible += pattern_possible
+            print(f"{pattern} has {pattern_possible} possibilities.")
+
         print(f"Total number of possible patterns: {num_possible}")
         end = time.time()
         print(f"Total time elapsed: {end - start} seconds.")
