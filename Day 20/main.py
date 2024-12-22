@@ -90,11 +90,6 @@ def calculate_dot_path_costs(data,width,height):
                 else:
                     dots[(w,h)] = None
 
-
-    '''
-    for key in dots:
-        dots[key],_ = graph.shortest_path_part_1(f"({key[0]},{key[1]})", end)
-    '''
     dots[s],path = graph.shortest_path_part_1(start, end)
     #print(path)
     #print(len(path.keys()))
@@ -144,67 +139,21 @@ def print_map(data,dots,width,height,cheats):
 
 
         #print(row)
+def manhattan(x1,y1,x2,y2):
+    return abs(x1-x2) + abs(y1-y2)
 
-def calculate_cheats(data,dots,width,height,min_saved_time):
+
+def calculate_cheats(data,dots,width,height,min_saved_time,cheat_time):
     cheats = {}
-
     for key in dots:
-        #up
-        if (key[0],key[1]-2) in dots:
-            saved_time = dots[key]-2 - dots[key[0],key[1]-2]
-            if saved_time >= min_saved_time:
-                if data[((key[1]-1)*width) + key[0]] == "#":
-                    cheats[(key,(key[0],key[1]-2))] = (saved_time,(key[0],(key[1]-1)))
-        # down
-        if (key[0], key[1] + 2) in dots:
-            saved_time = dots[key] - 2 - dots[key[0], key[1] + 2]
-            if saved_time >= min_saved_time:
-                if data[((key[1] + 1)*width) + key[0]] == "#":
-                    cheats[(key,(key[0], key[1] + 2))] = (saved_time,(key[0], (key[1] + 1)))
-        # left
-        if (key[0] - 2, key[1]) in dots:
-            saved_time = dots[key] - 2 - dots[key[0] - 2, key[1]]
-            if saved_time >= min_saved_time:
-                if data[((key[1])*width) + (key[0] - 1)] == "#":
-                    cheats[(key,(key[0] - 2, key[1]))] = (saved_time,((key[0] - 1), (key[1])))
-        # right
-        if (key[0] + 2, key[1]) in dots:
-            saved_time = dots[key] - 2 - dots[key[0] + 2, key[1]]
-            if saved_time >= min_saved_time:
-                if data[((key[1])*width) + (key[0] + 1)] == "#":
-                    cheats[(key,(key[0] + 2, key[1]))] = (saved_time,((key[0] + 1), (key[1])))
-
-        '''
-        #add E check
-        # up
-        if ((key[1] - 2)*width) + key[0] > 0:
-            if data[((key[1] - 2)*width) + key[0]] == "E":
-                saved_time = dots[key] - 2
-                if saved_time >= min_saved_time:
-                    if data[((key[1]-1)*width) + key[0]] == "#":
-                        cheats[(key,key[0] - 2, key[1])] = (saved_time, (key[0], (key[1] - 1)))
-        # down
-        if ((key[1] + 2)*width) + key[0] < len(data):
-            if data[((key[1] + 2)*width) + key[0]] == "E":
-                saved_time = dots[key] - 2
-                if saved_time >= min_saved_time:
-                    if data[((key[1] + 1)*width) + key[0]] == "#":
-                        cheats[(key,key[0] - 2, key[1])] = (saved_time, (key[0], (key[1] + 1)))
-        # left
-        if (key[1]*width) + (key[0] - 2) > 0:
-            if data[(key[1]*width) + (key[0] - 2)] == "E":
-                saved_time = dots[key] - 2
-                if saved_time >= min_saved_time:
-                    if data[((key[1])*width) + (key[0] - 1)] == "#":
-                        cheats[(key,key[0] - 2, key[1])] = (saved_time, ((key[0] - 1), (key[1])))
-        # right
-        if (key[1]*width) + (key[0] + 2) < len(data):
-            if data[(key[1]*width) + (key[0] + 2)] == "E":
-                saved_time = dots[key] - 2
-                if saved_time >= min_saved_time:
-                    if data[((key[1])*width) + (key[0] + 1)] == "#":
-                        cheats[(key,key[0] - 2, key[1])] = (saved_time, ((key[0] + 1), (key[1])))
-        '''
+        for y in range(max(key[1] - cheat_time, 0),min(key[1] + cheat_time+1, height)):
+            for x in range(max(key[0] - cheat_time, 0),min(key[0] + cheat_time+1, width)):
+                if (x,y) in dots:
+                    distance = manhattan(key[0],key[1],x,y)
+                    if distance <= cheat_time:
+                        saved_time = dots[key]-distance - dots[x,y]
+                        if saved_time >= min_saved_time:
+                            cheats[(key, (x,y))] = saved_time
     return cheats
 
 
@@ -216,12 +165,13 @@ if __name__ == "__main__":
         min_saved_time = 100
         data, width, height = load_map("input.txt")
         base_cost, dots= calculate_dot_path_costs(data,width,height)
+        cheat_time = 20
         #print(len(dots))
         #return
         #print(dots)
         #print(f"Base Cost: {base_cost}")
         #print_map(data,dots,width,height, {})
-        cheats = calculate_cheats(data,dots,width,height,min_saved_time)
+        cheats = calculate_cheats(data,dots,width,height,min_saved_time,cheat_time)
         #print(cheats)
         #print_map(data,dots,width,height,cheats)
         print(f"Number of cheats that save at least {min_saved_time} seconds: {len(cheats)}")
@@ -229,10 +179,10 @@ if __name__ == "__main__":
         cheat_times = {}
 
         for key in cheats:
-            if cheats[key][0] in cheat_times:
-                cheat_times[cheats[key][0]] += 1
+            if cheats[key] in cheat_times:
+                cheat_times[cheats[key]] += 1
             else:
-                cheat_times[cheats[key][0]] = 1
+                cheat_times[cheats[key]] = 1
 
         #sorted_dict = dict(sorted(cheat_times.items()))
         #print(sorted_dict)
