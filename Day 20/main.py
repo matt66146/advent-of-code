@@ -113,7 +113,7 @@ def print_map(data,dots,width,height,cheats):
     row = " "
     for i in range(0,width):
         row +=("{:5n}".format(i))
-    #print(row)
+    print(row)
 
     cheat_walls = []
     for key in cheats:
@@ -138,7 +138,7 @@ def print_map(data,dots,width,height,cheats):
 
 
 
-        #print(row)
+        print(row)
 def manhattan(x1,y1,x2,y2):
     return abs(x1-x2) + abs(y1-y2)
 
@@ -170,7 +170,7 @@ if __name__ == "__main__":
         #return
         #print(dots)
         #print(f"Base Cost: {base_cost}")
-        #print_map(data,dots,width,height, {})
+        print_map(data,dots,width,height, {})
         cheats = calculate_cheats(data,dots,width,height,min_saved_time,cheat_time)
         #print(cheats)
         #print_map(data,dots,width,height,cheats)
