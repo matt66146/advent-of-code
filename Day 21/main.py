@@ -43,11 +43,11 @@ class Graph:
 @functools.cache
 def calculate_path(src, dest, graph):
     dist, prev = graph.dijkstra_shortest_path(src, dest)
-    print(prev)
+    # print(prev)
     paths = [""]
 
     walk_backwards(prev, dest, src, paths, 0, graph)
-    print(paths)
+    # print(paths)
     path_biggest_chars = {}
     i = 0
     for path in paths:
@@ -72,7 +72,21 @@ def calculate_path(src, dest, graph):
 
     # print(path_biggest_chars)
     max_paths = get_max_paths(path_biggest_chars)
-    print(max_paths)
+    # print(max_paths)
+
+    if len(max_paths) > 1:
+        # print("Before")
+        # print(max_paths)
+        best_directions = {">": 1, "v": 2, "^": 3, "<": 4}
+        for key in max_paths:
+            for letter in key:
+                max_paths[key]["path"].append(best_directions[letter])
+        max_paths = check_best_direction(max_paths)
+        # print("After")
+        # print(max_paths)
+    if len(max_paths) > 1:
+        print(max_paths)
+    return list(max_paths.keys())[0] + "A"
 
 
 def get_max_paths(path_biggest_chars):
@@ -95,15 +109,60 @@ def get_max_paths(path_biggest_chars):
         if len(max_paths[key]['path']) > 0:
             max_paths[key]['max'] = max(max_paths[key]['path'])
     k = list(max_paths.keys())[0]
+
     while len(max_paths[k]['path']) > 0 and len(max_paths) > 1:
         max_paths = get_max_paths(max_paths)
         k = list(max_paths.keys())[0]
+
     return max_paths
 
 
+def check_best_direction(max_paths):
+    best_paths = {}
+    current_max = 0
+
+    for key in max_paths:
+        if max_paths[key]['path'][0] >= current_max:
+            current_max = max_paths[key]['path'][0]
+            # best_paths[key] = ({'max': current_max, 'path': max_paths[key]["path"]})
+
+    for key in max_paths:
+        if max_paths[key]['path'][0] >= current_max:
+            best_paths[key] = ({'max': current_max, 'path': max_paths[key]["path"]})
+
+    for key in best_paths:
+        best_paths[key]['path'].remove(best_paths[key]['max'])
+        if len(best_paths[key]['path']) > 0:
+            best_paths[key]['max'] = max(best_paths[key]['path'])
+    k = list(best_paths.keys())[0]
+
+    while len(best_paths[k]['path']) > 0 and len(best_paths) > 1:
+        best_paths = check_best_direction(best_paths)
+        k = list(best_paths.keys())[0]
+
+    return best_paths
+
+
 @functools.cache
-def calculate_cost():
-    return ""
+def calculate_cost(src, dest, graph_numpad, graph_directional, level, max_level):
+    max_paths = None
+    if level == max_level:
+        max_paths = calculate_path(src, dest, graph_numpad)
+
+
+    else:
+        max_paths = calculate_path(src, dest, graph_directional)
+
+    # print(max_paths)
+    if level == 1:
+        return len(max_paths)
+
+    current_char = 'A'
+    cost = 0
+    for direction in max_paths:
+        cost += calculate_cost(current_char, direction, graph_numpad, graph_directional, level - 1, max_level)
+        current_char = direction
+    return cost
 
 
 def generate_numpad():
@@ -157,6 +216,24 @@ def generate_numpad():
 
 def generate_directional():
     graph = Graph()
+    start = None
+    end = None
+
+    graph.add_edge("^", "A", 1, ">")
+    graph.add_edge("^", "v", 1, "v")
+
+    graph.add_edge("A", "^", 1, "<")
+    graph.add_edge("A", ">", 1, "v")
+
+    graph.add_edge("<", "v", 1, ">")
+
+    graph.add_edge("v", "<", 1, "<")
+    graph.add_edge("v", "^", 1, "^")
+    graph.add_edge("v", ">", 1, ">")
+
+    graph.add_edge(">", "v", 1, "<")
+    graph.add_edge(">", "A", 1, "^")
+
     return graph
 
 
@@ -165,7 +242,7 @@ def walk_backwards(prev, node, src, paths, curr_path, graph):
         return
     old_path = paths[curr_path][:]
     for i in range(0, len(prev[node])):
-        print((graph.vertices[prev[node][i]][node]["direction"]))
+        # print((graph.vertices[prev[node][i]][node]["direction"]))
         if i > 0:
             paths.append(old_path)
             new_path = len(paths) - 1
@@ -177,17 +254,45 @@ def walk_backwards(prev, node, src, paths, curr_path, graph):
             walk_backwards(prev, prev[node][i], src, paths, curr_path, graph)
 
 
+def run_robots(goals, graph_numpad, graph_directional, num_directional_pads):
+    total_complexity = 0
+    for goal in goals:
+        current_letter = 'A'
+        cost = 0
+        for letter in goal:
+            # print(f"Letter: {letter}")
+            current_cost = calculate_cost(current_letter, letter, graph_numpad, graph_directional,
+                                          num_directional_pads, num_directional_pads)
+            cost += current_cost
+            current_letter = letter
+        complexity = cost * int(goal[:-1])
+        # print(f'Cost: {cost}')
+        # print(f'Complexity: {complexity}')
+        total_complexity += complexity
+    return total_complexity
+
+
 if __name__ == "__main__":
     def main():
+        start = time.time()
         graph_numpad = generate_numpad()
         graph_directional = generate_directional()
 
-        src = "A"
-        dest = "7"
+        goals = []
 
-        calculate_path(src, dest, graph_numpad)
+        with open("input.txt") as input_file:
+            for line in input_file:
+                goals.append(line.strip())
 
-        start = time.time()
+        # part 1
+        num_directional_pads = 3
+        total_complexity = run_robots(goals, graph_numpad, graph_directional, num_directional_pads)
+        print(f'{colored("Part 1", "light_blue")} - Total Complexity: {colored(total_complexity, "light_green")}')
+
+        # part 2
+        num_directional_pads = 26
+        total_complexity = run_robots(goals, graph_numpad, graph_directional, num_directional_pads)
+        print(f'{colored("Part 2", "light_blue")} - Total Complexity: {colored(total_complexity, "light_green")}')
 
         end = time.time()
         print(f"Total elapsed time: {round(end - start, 2)} seconds.")
