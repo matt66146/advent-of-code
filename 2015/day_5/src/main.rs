@@ -54,16 +54,11 @@ fn repeat_letter(string: &String) -> bool {
 fn check_pairs(string: &String) -> bool {
     let mut pairs: Vec<String> = vec![];
     let mut c = 0;
-    let mut prev: String = "".to_string();
 
     while c < string.len() - 1 {
-        if prev != string[c..c + 2].to_string() {
-            if pairs.contains(&string[c..c + 2].to_string()) {
-                return true;
-            }
-            pairs.push(string[c..c + 2].to_string());
+        if string[c + 2..string.len()].contains(&string[c..c + 2].to_string()) {
+            return true;
         }
-        prev = string[c..c + 2].to_string();
 
         c += 1;
     }
