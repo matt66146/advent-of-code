@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "WH1gVs0IOd8=",
+  "success": true,
+  "projectFilePath": "/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/Day1_Dotnet.csproj",
+  "expectedPackageFiles": [
+    "/home/matt/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.9/microsoft.aspnetcore.app.ref.9.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}

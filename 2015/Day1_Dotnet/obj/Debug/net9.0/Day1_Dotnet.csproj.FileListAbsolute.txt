@@ -1,0 +1,16 @@
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/bin/Debug/net9.0/Day1_Dotnet
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/bin/Debug/net9.0/Day1_Dotnet.deps.json
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/bin/Debug/net9.0/Day1_Dotnet.runtimeconfig.json
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/bin/Debug/net9.0/Day1_Dotnet.dll
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/bin/Debug/net9.0/Day1_Dotnet.pdb
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.GeneratedMSBuildEditorConfig.editorconfig
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.AssemblyInfoInputs.cache
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.AssemblyInfo.cs
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.csproj.CoreCompileInputs.cache
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.sourcelink.json
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.dll
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/refint/Day1_Dotnet.dll
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.pdb
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/Day1_Dotnet.genruntimeconfig.cache
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/Debug/net9.0/ref/Day1_Dotnet.dll
+/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/bin/Debug/net9.0/input
