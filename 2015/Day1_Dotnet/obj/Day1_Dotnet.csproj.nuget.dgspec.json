@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/Day1_Dotnet.csproj": {}
+    "E:\\source\\repos\\Personal\\advent-of-code\\2015\\Day1_Dotnet\\Day1_Dotnet.csproj": {}
   },
   "projects": {
-    "/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/Day1_Dotnet.csproj": {
+    "E:\\source\\repos\\Personal\\advent-of-code\\2015\\Day1_Dotnet\\Day1_Dotnet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/Day1_Dotnet.csproj",
+        "projectUniqueName": "E:\\source\\repos\\Personal\\advent-of-code\\2015\\Day1_Dotnet\\Day1_Dotnet.csproj",
         "projectName": "Day1_Dotnet",
-        "projectPath": "/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/Day1_Dotnet.csproj",
-        "packagesPath": "/home/matt/.nuget/packages/",
-        "outputPath": "/home/matt/Programming/Personal/advent-of-code/2015/Day1_Dotnet/obj/",
+        "projectPath": "E:\\source\\repos\\Personal\\advent-of-code\\2015\\Day1_Dotnet\\Day1_Dotnet.csproj",
+        "packagesPath": "C:\\Users\\matt6\\.nuget\\packages\\",
+        "outputPath": "E:\\source\\repos\\Personal\\advent-of-code\\2015\\Day1_Dotnet\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/matt/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\matt6\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -54,18 +61,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.9, 9.0.9]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

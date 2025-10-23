@@ -26,7 +26,7 @@ fn main() {
 
         total_area += area;
 
-        let mut ribbon = (nums[0] * 2) + (nums[1] * 2) + (length * width * height);
+        let ribbon = (nums[0] * 2) + (nums[1] * 2) + (length * width * height);
         total_ribbon += ribbon;
     }
     println!("Part 1 - Total Area: {}", total_area);

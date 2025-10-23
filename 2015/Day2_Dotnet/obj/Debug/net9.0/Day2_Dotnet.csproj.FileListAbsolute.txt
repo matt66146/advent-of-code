@@ -1,0 +1,16 @@
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\bin\Debug\net9.0\Day2_Dotnet.exe
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\bin\Debug\net9.0\Day2_Dotnet.deps.json
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\bin\Debug\net9.0\Day2_Dotnet.runtimeconfig.json
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\bin\Debug\net9.0\Day2_Dotnet.dll
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\bin\Debug\net9.0\Day2_Dotnet.pdb
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.GeneratedMSBuildEditorConfig.editorconfig
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.AssemblyInfoInputs.cache
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.AssemblyInfo.cs
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.csproj.CoreCompileInputs.cache
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.sourcelink.json
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.dll
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\refint\Day2_Dotnet.dll
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.pdb
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\Day2_Dotnet.genruntimeconfig.cache
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\obj\Debug\net9.0\ref\Day2_Dotnet.dll
+E:\source\repos\Personal\advent-of-code\2015\Day2_Dotnet\bin\Debug\net9.0\input
