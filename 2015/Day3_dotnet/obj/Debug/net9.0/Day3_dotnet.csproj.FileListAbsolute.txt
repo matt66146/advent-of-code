@@ -1,0 +1,15 @@
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\bin\Debug\net9.0\Day3_dotnet.exe
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\bin\Debug\net9.0\Day3_dotnet.deps.json
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\bin\Debug\net9.0\Day3_dotnet.runtimeconfig.json
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\bin\Debug\net9.0\Day3_dotnet.dll
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\bin\Debug\net9.0\Day3_dotnet.pdb
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.GeneratedMSBuildEditorConfig.editorconfig
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.AssemblyInfoInputs.cache
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.AssemblyInfo.cs
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.csproj.CoreCompileInputs.cache
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.sourcelink.json
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.dll
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\refint\Day3_dotnet.dll
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.pdb
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\Day3_dotnet.genruntimeconfig.cache
+E:\source\repos\Personal\advent-of-code\2015\Day3_dotnet\obj\Debug\net9.0\ref\Day3_dotnet.dll
