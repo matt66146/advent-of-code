@@ -23,8 +23,6 @@ Console.WriteLine($"Part 2: {wires["a"]}");
 
 
 
-
-
 Dictionary<string, ushort> RunMachine(bool part1, ushort b)
 {
     Dictionary<string, ushort> wires = new();
