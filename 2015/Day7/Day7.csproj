@@ -11,9 +11,6 @@
     <None Update="input">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="inputPart2">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="testInput">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

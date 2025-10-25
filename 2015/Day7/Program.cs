@@ -1,11 +1,10 @@
 var f = new List<string>();
-var fPart2 = new List<string>();
 
 f = File.ReadAllLines("input").ToList();
-fPart2 = File.ReadAllLines("inputPart2").ToList();
+
 
 //Part1
-var wires = RunMachine(f);
+var wires = RunMachine(true, (ushort)0);
 Console.WriteLine($"Part 1: {wires["a"]}");
 
 
@@ -14,7 +13,7 @@ Console.WriteLine($"Part 1: {wires["a"]}");
 
 
 //Part2
-wires = RunMachine(fPart2);
+wires = RunMachine(false, wires["a"]);
 Console.WriteLine($"Part 2: {wires["a"]}");
 
 
@@ -26,7 +25,7 @@ Console.WriteLine($"Part 2: {wires["a"]}");
 
 
 
-Dictionary<string, ushort> RunMachine(List<string> f)
+Dictionary<string, ushort> RunMachine(bool part1, ushort b)
 {
     Dictionary<string, ushort> wires = new();
     Dictionary<string, ushort> prevWires = new();
@@ -53,6 +52,10 @@ Dictionary<string, ushort> RunMachine(List<string> f)
                     if ((commands[1] == "->"))
                     {
                         wires[commands[2]] = value;
+                        if (!part1 && commands[2] == "b")
+                        {
+                            wires[commands[2]] = b;
+                        }
                     }
                     else
                     {
@@ -102,6 +105,7 @@ Dictionary<string, ushort> RunMachine(List<string> f)
                             //Initialize wire to 0 if does not exist
                             if (!wires.ContainsKey(commands[2])) wires[commands[2]] = 0;
                             wires[commands[2]] = wires[commands[0]];
+
                             break;
 
                         default:
