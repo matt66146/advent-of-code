@@ -11,8 +11,11 @@ ASCIIEncoding ascii = new ASCIIEncoding();
 foreach (var line in f)
 {
     numCode += line.Count();
+    Console.WriteLine(line);
     var x = Regex.Unescape(line);
+    Console.WriteLine(x);
     var y = Regex.Escape(line).Replace("\"", "\\\"");
+    Console.WriteLine(y);
     Console.WriteLine(y);
     numMemory += x.Count() - 2;
     numPart2 += y.Count() + 2;
