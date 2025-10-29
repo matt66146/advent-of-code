@@ -1,29 +1,12 @@
 ﻿using System.Text.Json;
 
 List<Ingredient> ingredients = new();
-/*
-ingredients.Add(new Ingredient("Butterscotch", -1, -2, 6, 3, 8));
-ingredients.Add(new Ingredient("Cinnamon", 2, 3, -2, -1, 3));
-*/
 
 var input = File.ReadAllLines("input");
 
 foreach (var line in input)
 {
     var words = line.Split(' ');
-    /*
-    string name = words[0];
- 
-    int capacity = int.Parse(words[2]);
-    int durability = int.Parse(words[4]);
-    int flavor = int.Parse(words[6]);
-    int texture = int.Parse(words[8]);
-    int calories = int.Parse(words[10]);
-    */
-    foreach (var word in words)
-    {
-        //Console.WriteLine(word);
-    }
     ingredients.Add(new Ingredient(
         words[0], //Name
         int.Parse(words[2].Remove(words[2].Length - 1)), //Capacity
@@ -33,89 +16,114 @@ foreach (var line in input)
         int.Parse(words[10].Remove(words[10].Length)))); //Calories
 }
 
-foreach (var ingredient in ingredients)
-{
-    //Console.WriteLine(JsonSerializer.Serialize(ingredient));
-}
-
 List<Ingredient> teaspoons = new();
 
-foreach (var ingredient in ingredients)
-{
-    teaspoons.Add(ingredient);
-}
 
-for (int i = ingredients.Count; i < 100; i++)
+//Part1
+int score = 0;
+int max = 0;
+for (int i = 0; i < 100; i++)
 {
-    int capacity = 0;
-    int durability = 0;
-    int flavor = 0;
-    int texture = 0;
-    int calories = 0;
-
-    foreach (var ingredient in teaspoons)
+    for (int j = 0; j < 100 - i; j++)
     {
-        capacity += ingredient.Capacity;
-        durability += ingredient.Durability;
-        flavor += ingredient.Flavor;
-        texture += ingredient.Texture;
-        calories += ingredient.Calories;
-    }
-    int tempScore = 0;
-    Ingredient bestToAdd = null;
-    foreach (var ingredient in ingredients)
-    {
-        int iScore = (capacity + ingredient.Capacity) * (durability + ingredient.Durability) * (flavor + ingredient.Flavor) * (texture + ingredient.Texture);
-        if (calories + ingredient.Calories <= 500 || 1 == 1)
+        for (int k = 0; k < 100 - i - j; k++)
         {
-            if (iScore > tempScore)
+            int h = 100 - i - j - k;
+            int capacity =
+                ingredients.ElementAt(0).Capacity * i +
+                ingredients.ElementAt(1).Capacity * j +
+                ingredients.ElementAt(2).Capacity * k +
+                ingredients.ElementAt(3).Capacity * h;
+
+            int durability =
+                ingredients.ElementAt(0).Durability * i +
+                ingredients.ElementAt(1).Durability * j +
+                ingredients.ElementAt(2).Durability * k +
+                ingredients.ElementAt(3).Durability * h;
+
+            int flavor =
+                ingredients.ElementAt(0).Flavor * i +
+                ingredients.ElementAt(1).Flavor * j +
+                ingredients.ElementAt(2).Flavor * k +
+                ingredients.ElementAt(3).Flavor * h;
+
+            int texture =
+                ingredients.ElementAt(0).Texture * i +
+                ingredients.ElementAt(1).Texture * j +
+                ingredients.ElementAt(2).Texture * k +
+                ingredients.ElementAt(3).Texture * h;
+
+            int calories =
+                ingredients.ElementAt(0).Calories * i +
+                ingredients.ElementAt(1).Calories * j +
+                ingredients.ElementAt(2).Calories * k +
+                ingredients.ElementAt(3).Calories * h;
+
+            if (capacity <= 0 || durability <= 0 || flavor <= 0 || texture <= 0)
             {
-                tempScore = iScore;
-                bestToAdd = ingredient;
+                score = 0;
+                continue;
             }
+            score = capacity * durability * flavor * texture;
+            if (score > max) max = score;
         }
-
-
     }
-    if (bestToAdd == null)
-    {
-        //break;
-        throw new Exception("THIS SHOULD NOT HAPPEN!!!!");
-    }
-    teaspoons.Add(bestToAdd);
 }
+Console.WriteLine($"Part 1 : {max}");
 
-int c = 0;
-int d = 0;
-int f = 0;
-int t = 0;
-int cal = 0;
 
-foreach (var ingredient in teaspoons)
+//Part2
+score = 0;
+max = 0;
+for (int i = 0; i < 100; i++)
 {
-    c += ingredient.Capacity;
-    d += ingredient.Durability;
-    f += ingredient.Flavor;
-    t += ingredient.Texture;
-    cal += ingredient.Calories;
-}
-int totalScore = c * d * f * t;
-
-
-
-Dictionary<string, int> percent = new();
-foreach (var ingredient in teaspoons)
-{
-    if (!percent.ContainsKey(ingredient.Name))
+    for (int j = 0; j < 100 - i; j++)
     {
-        percent[ingredient.Name] = 0;
-    }
-    percent[ingredient.Name]++;
-}
+        for (int k = 0; k < 100 - i - j; k++)
+        {
+            int h = 100 - i - j - k;
+            int capacity =
+                ingredients.ElementAt(0).Capacity * i +
+                ingredients.ElementAt(1).Capacity * j +
+                ingredients.ElementAt(2).Capacity * k +
+                ingredients.ElementAt(3).Capacity * h;
 
-Console.WriteLine(JsonSerializer.Serialize(percent));
-Console.WriteLine(cal);
-Console.WriteLine(totalScore);
+            int durability =
+                ingredients.ElementAt(0).Durability * i +
+                ingredients.ElementAt(1).Durability * j +
+                ingredients.ElementAt(2).Durability * k +
+                ingredients.ElementAt(3).Durability * h;
+
+            int flavor =
+                ingredients.ElementAt(0).Flavor * i +
+                ingredients.ElementAt(1).Flavor * j +
+                ingredients.ElementAt(2).Flavor * k +
+                ingredients.ElementAt(3).Flavor * h;
+
+            int texture =
+                ingredients.ElementAt(0).Texture * i +
+                ingredients.ElementAt(1).Texture * j +
+                ingredients.ElementAt(2).Texture * k +
+                ingredients.ElementAt(3).Texture * h;
+
+            int calories =
+                ingredients.ElementAt(0).Calories * i +
+                ingredients.ElementAt(1).Calories * j +
+                ingredients.ElementAt(2).Calories * k +
+                ingredients.ElementAt(3).Calories * h;
+
+            if (!(calories == 500)) continue;
+            if (capacity <= 0 || durability <= 0 || flavor <= 0 || texture <= 0)
+            {
+                score = 0;
+                continue;
+            }
+            score = capacity * durability * flavor * texture;
+            if (score > max) max = score;
+        }
+    }
+}
+Console.WriteLine($"Part 2 : {max}");
 
 
 class Ingredient(string name, int capacity, int durability, int flavor, int texture, int calories)
