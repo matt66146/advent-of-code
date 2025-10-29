@@ -65,7 +65,7 @@ foreach (var order in test)
 }
 happinessList = happinessList.OrderByDescending(i => i).ToList();
 
-Console.WriteLine($"Part 1 - Total Happiness: {happinessList[0]}");
+Console.WriteLine($"Part 2 - Total Happiness: {happinessList[0]}");
 
 
 
