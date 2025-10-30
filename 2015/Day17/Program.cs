@@ -1,7 +1,7 @@
 ﻿var input = File.ReadAllLines("input");
 
 //Test input
-//input = ["20", "15", "10", "5", "5"];
+input = ["20", "15", "10", "5", "5"];
 //*********
 
 List<int> containers = new();
@@ -11,33 +11,34 @@ foreach (var line in input)
     containers.Add(Int32.Parse(line));
 }
 
-int max = 150;
+int max = 25;
 List<Dictionary<int, int>> combos = new();
 
 
-FindCombos(new Dictionary<int, int>(), containers);
+combos = FindCombos(new Dictionary<int, int>(), containers);
 
-void FindCombos(Dictionary<int, int> combo, List<int> containers)
+List<Dictionary<int, int>> FindCombos(Dictionary<int, int> combo, List<int> containers)
 {
-    Console.WriteLine("test");
+    List<Dictionary<int, int>> combos = new();
     if (combo.Values.Sum() == max)
     {
         combos.Add(combo);
     }
     else
     {
-        foreach (var container in containers)
+        for (int i = 0; i < containers.Count; i++)
         {
-            if ((combo.Values.Sum() + container) <= max)
+            if ((combo.Values.Sum() + containers[i]) <= max)
             {
                 Dictionary<int, int> currentCombo = new(combo);
-                currentCombo[container] = container;
+                currentCombo[containers.IndexOf(containers[i])] = containers[i];
                 List<int> containersLeft = new(containers);
-                containersLeft.Remove(container);
-                FindCombos(currentCombo, containersLeft);
+                containersLeft.Remove(containers[i]);
+                combos.AddRange(FindCombos(currentCombo, containersLeft));
             }
         }
     }
+    return combos;
 }
 
 Console.WriteLine($"Num Combos: {combos.Count()}");
