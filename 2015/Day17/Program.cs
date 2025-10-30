@@ -1,56 +1,70 @@
-﻿var input = File.ReadAllLines("input");
+﻿
+using System.Text.Json;
+
+var input = File.ReadAllLines("input");
 
 //Test input
 //input = ["20", "15", "10", "5", "5"];
 //*********
 
-List<int> containers = new();
 
-foreach (var line in input)
+List<(int Index, int Size)> containers = new();
+
+for (int i = 0; i < input.Length; i++)
 {
-    containers.Add(Int32.Parse(line));
+    containers.Add((i, Int32.Parse(input[i])));
 }
 
-//Change dicts to tuples and use caching to speed up processing
-//Use hashset of tuples to prevent duplicate combos
+foreach (var container in containers)
+{
+    //Console.WriteLine(container);
+}
 
 int max = 150;
-List<Dictionary<int, int>> combos = new();
 
+List<List<(int Index, int Size)>> combos = FindCombos(new List<(int Index, int Size)>(), 0, containers);
 
-combos = FindCombos(new Dictionary<int, int>(), containers);
-
-List<Dictionary<int, int>> FindCombos(Dictionary<int, int> combo, List<int> containers)
+List<List<(int Index, int Size)>> FindCombos(List<(int Index, int Size)> combo, int sum, List<(int Index, int Size)> containers)
 {
-    List<Dictionary<int, int>> combos = new();
-    if (combo.Values.Sum() == max)
+    List<List<(int Index, int Size)>> combos = new();
+    if (sum == max)
     {
+        combo.Sort();
         combos.Add(combo);
     }
     else
     {
-        for (int i = 0; i < containers.Count; i++)
+        foreach (var container in containers)
         {
-            if ((combo.Values.Sum() + containers[i]) <= max)
+            if (sum + container.Size <= max)
             {
-                Dictionary<int, int> currentCombo = new(combo);
-                currentCombo[containers.IndexOf(containers[i])] = containers[i];
-                List<int> containersLeft = new(containers);
-                containersLeft.Remove(containers[i]);
-                combos.AddRange(FindCombos(currentCombo, containersLeft));
+                List<(int Index, int Size)> currentCombo = new(combo);
+                currentCombo.Add(container);
+                List<(int Index, int Size)> containersLeft = new(containers);
+                containersLeft.Remove(container);
+                int currentSum = sum + container.Size;
+
+                foreach (var a in FindCombos(currentCombo, sum + container.Size, containersLeft))
+                {
+
+                    if (!combos.Any(list => list.SequenceEqual(a)))
+                    {
+                        combos.Add(a);
+                    }
+                }
             }
         }
     }
+
+
+
     return combos;
 }
 
-Console.WriteLine($"Num Combos: {combos.Count()}");
 
-foreach (var c in combos)
+foreach (var combo in combos)
 {
-    Console.WriteLine(string.Join(' ', c));
+    Console.WriteLine(string.Join(", ", combo.Select(t => t)));
 }
 
-
-
-
+Console.WriteLine($"Part 1 - Number of combos: {combos.Count}");
