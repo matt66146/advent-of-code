@@ -1,7 +1,7 @@
 ﻿var input = File.ReadAllLines("input");
 
 //Test input
-input = ["20", "15", "10", "5", "5"];
+//input = ["20", "15", "10", "5", "5"];
 //*********
 
 List<int> containers = new();
@@ -11,7 +11,10 @@ foreach (var line in input)
     containers.Add(Int32.Parse(line));
 }
 
-int max = 25;
+//Change dicts to tuples and use caching to speed up processing
+//Use hashset of tuples to prevent duplicate combos
+
+int max = 150;
 List<Dictionary<int, int>> combos = new();
 
 
