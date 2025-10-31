@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices;
+using System.Text;
 
 var f = File.ReadAllLines("input");
 
@@ -19,6 +20,13 @@ foreach (var line in f)
     }
     input.Add(lineArray);
 }
+
+if (OperatingSystem.IsWindows())
+{
+    Console.BufferHeight = 500;
+    Console.BufferWidth = 500;
+}
+
 
 Console.ForegroundColor = ConsoleColor.Yellow;
 int numSteps = 100;
@@ -74,13 +82,13 @@ for (int i = 0; i < inputP2.Count; i++)
 for (int i = 0; i < numSteps; i++)
 {
     input = RunSimulation(input, false);
-    Console.Clear();
+    //Console.Clear();
     //Console.WriteLine("\x1b[3J");
     DrawSimulation(input);
     Thread.Sleep(millisecondsTimeout: msDelay);
     //Console.ReadKey();
 }
-Console.Clear();
+//Console.Clear();
 Console.WriteLine("\x1b[3J");
 Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine("Starting Part 2 in 2 seconds...");
@@ -91,7 +99,7 @@ Console.WriteLine("\x1b[3J");
 for (int i = 0; i < numSteps; i++)
 {
     inputP2 = RunSimulation(inputP2, true);
-    Console.Clear();
+    //Console.Clear();
     //onsole.WriteLine("\x1b[3J");
     DrawSimulation(inputP2);
     Thread.Sleep(millisecondsTimeout: msDelay);
@@ -119,40 +127,42 @@ int GetLightsOn(List<List<char>> input)
 
 void DrawSimulation(List<List<char>> input)
 {
+    var sb = new StringBuilder();
+    Console.SetCursorPosition(0, 0);
     for (int i = 0; i < input.Count; i += 2)
     {
         for (int j = 0; j < input[i].Count; j++)
         {
-            //Console.SetCursorPosition(j, i);
+            // Console.SetCursorPosition(j, i);
             if (input[i][j] == '#')
             {
 
                 if (input[i + 1][j] == '#')
                 {
-
-                    Console.Write("█");
+                    sb.Append("█");
+                    //Console.Write("█");
                 }
                 else
                 {
-                    Console.Write("▀");
+                    sb.Append("▀");
                 }
 
             }
             else if (input[i + 1][j] == '#')
             {
-                Console.Write("▄");
+                sb.Append("▄");
             }
             else
             {
-                Console.Write(" ");
+                sb.Append(" ");
             }
 
 
 
         }
-        Console.Write("\n");
+        sb.Append("\n");
     }
-    Console.WriteLine("\x1b[3J");
+    Console.WriteLine($"{sb}\x1b[3J");
 }
 List<List<char>> RunSimulation(List<List<char>> input, bool faultyLights)
 {
