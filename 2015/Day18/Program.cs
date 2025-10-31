@@ -14,7 +14,7 @@ foreach (var line in f)
 }
 
 int numSteps = 100;
-Console.Clear();
+//Console.Clear();
 //DrawSimulation(input);
 //Thread.Sleep(1000);
 //Console.WriteLine(GetLightsOn(input));
@@ -65,20 +65,22 @@ for (int i = 0; i < inputP2.Count; i++)
 for (int i = 0; i < numSteps; i++)
 {
     input = RunSimulation(input, false);
-    //Console.Clear();
+    Console.Clear();
     //Console.WriteLine("\x1b[3J");
-    //rawSimulation(input);
-    //Thread.Sleep(millisecondsTimeout: 100);
+    DrawSimulation(input);
+    Thread.Sleep(millisecondsTimeout: 16);
     //Console.ReadKey();
 }
-
+Console.Clear();
+Console.WriteLine("Part 2 in 5 seconds...");
+Thread.Sleep(millisecondsTimeout: 5000);
 for (int i = 0; i < numSteps; i++)
 {
     inputP2 = RunSimulation(inputP2, true);
-    //Console.Clear();
+    Console.Clear();
     //Console.WriteLine("\x1b[3J");
-    //rawSimulation(input);
-    //Thread.Sleep(millisecondsTimeout: 100);
+    DrawSimulation(inputP2);
+    Thread.Sleep(millisecondsTimeout: 16);
     //Console.ReadKey();
 }
 Console.CursorVisible = true;
