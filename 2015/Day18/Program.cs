@@ -1,7 +1,14 @@
-﻿var f = File.ReadAllLines("input");
+﻿using System.Text;
+
+var f = File.ReadAllLines("input");
 
 List<List<char>> input = new List<List<char>>();
 Console.CursorVisible = false;
+int msDelay = 0;
+if (args.Length > 0)
+{
+    msDelay = Int32.Parse(args[0]);
+}
 
 foreach (var line in f)
 {
@@ -13,10 +20,12 @@ foreach (var line in f)
     input.Add(lineArray);
 }
 
+Console.ForegroundColor = ConsoleColor.Yellow;
 int numSteps = 100;
-//Console.Clear();
-//DrawSimulation(input);
-//Thread.Sleep(1000);
+Console.Clear();
+Console.WriteLine("\x1b[3J");
+DrawSimulation(input);
+Thread.Sleep(msDelay);
 //Console.WriteLine(GetLightsOn(input));
 //Console.ReadKey();
 
@@ -65,29 +74,31 @@ for (int i = 0; i < inputP2.Count; i++)
 for (int i = 0; i < numSteps; i++)
 {
     input = RunSimulation(input, false);
-    //Console.Clear();
-    Console.WriteLine("\x1b[3J");
+    Console.Clear();
+    //Console.WriteLine("\x1b[3J");
     DrawSimulation(input);
-    Thread.Sleep(millisecondsTimeout: 100);
+    Thread.Sleep(millisecondsTimeout: msDelay);
     //Console.ReadKey();
 }
-//Console.Clear();
+Console.Clear();
 Console.WriteLine("\x1b[3J");
-Console.WriteLine("Part 2 in 5 seconds...");
-Thread.Sleep(millisecondsTimeout: 5000);
+Console.ForegroundColor = ConsoleColor.White;
+Console.WriteLine("Starting Part 2 in 2 seconds...");
+Console.ForegroundColor = ConsoleColor.Yellow;
+Thread.Sleep(millisecondsTimeout: 2000);
+Console.Clear();
+Console.WriteLine("\x1b[3J");
 for (int i = 0; i < numSteps; i++)
 {
     inputP2 = RunSimulation(inputP2, true);
-    //Console.Clear();
-    Console.WriteLine("\x1b[3J");
+    Console.Clear();
+    //onsole.WriteLine("\x1b[3J");
     DrawSimulation(inputP2);
-    Thread.Sleep(millisecondsTimeout: 100);
+    Thread.Sleep(millisecondsTimeout: msDelay);
     //Console.ReadKey();
 }
-Console.CursorVisible = true;
-Console.ForegroundColor = ConsoleColor.White;
-Console.BackgroundColor = ConsoleColor.Black;
 
+Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine($"Part 1 - Light On: {GetLightsOn(input)}");
 Console.WriteLine($"Part 2 - Light On: {GetLightsOn(inputP2)}");
 
@@ -112,29 +123,36 @@ void DrawSimulation(List<List<char>> input)
     {
         for (int j = 0; j < input[i].Count; j++)
         {
+            //Console.SetCursorPosition(j, i);
             if (input[i][j] == '#')
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                if (input[i + 1][j] == '#')
+                {
+
+                    Console.Write("█");
+                }
+                else
+                {
+                    Console.Write("▀");
+                }
+
+            }
+            else if (input[i + 1][j] == '#')
+            {
+                Console.Write("▄");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write(" ");
             }
 
-            if (input[i + 1][j] == '#')
-            {
-                Console.BackgroundColor = ConsoleColor.Yellow;
-            }
-            else
-            {
-                Console.BackgroundColor = ConsoleColor.Black;
-            }
-            Console.Write("▀");
+
+
         }
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.BackgroundColor = ConsoleColor.Black;
         Console.Write("\n");
     }
+    Console.WriteLine("\x1b[3J");
 }
 List<List<char>> RunSimulation(List<List<char>> input, bool faultyLights)
 {
