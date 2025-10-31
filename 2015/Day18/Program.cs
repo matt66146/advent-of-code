@@ -21,21 +21,72 @@ Console.Clear();
 //Console.ReadKey();
 
 
+
+
+List<List<char>> inputP2 = new();
+
+foreach (var line in input)
+{
+    List<char> lineArray = new();
+    for (int i = 0; i < line.Count; i++)
+    {
+        lineArray.Add(line[i]);
+    }
+    inputP2.Add(lineArray);
+}
+
+
+for (int i = 0; i < inputP2.Count; i++)
+{
+    for (int j = 0; j < inputP2[i].Count; j++)
+    {
+        if (i == 0 && j == 0)
+        {
+            inputP2[i][j] = '#';
+        }
+
+        if (i == 0 && j == inputP2[i].Count - 1)
+        {
+            inputP2[i][j] = '#';
+        }
+
+        if (i == inputP2.Count - 1 && j == 0)
+        {
+            inputP2[i][j] = '#';
+        }
+
+        if (i == inputP2.Count - 1 && j == inputP2[i].Count - 1)
+        {
+            inputP2[i][j] = '#';
+        }
+    }
+}
+
 for (int i = 0; i < numSteps; i++)
 {
-    input = RunSimulation(input);
+    input = RunSimulation(input, false);
     //Console.Clear();
     //Console.WriteLine("\x1b[3J");
     //rawSimulation(input);
     //Thread.Sleep(millisecondsTimeout: 100);
     //Console.ReadKey();
 }
-Console.WriteLine(GetLightsOn(input));
-Console.CursorVisible = true;
 
+for (int i = 0; i < numSteps; i++)
+{
+    inputP2 = RunSimulation(inputP2, true);
+    //Console.Clear();
+    //Console.WriteLine("\x1b[3J");
+    //rawSimulation(input);
+    //Thread.Sleep(millisecondsTimeout: 100);
+    //Console.ReadKey();
+}
+Console.CursorVisible = true;
 Console.ForegroundColor = ConsoleColor.White;
 Console.BackgroundColor = ConsoleColor.Black;
 
+Console.WriteLine($"Part 1 - Light On: {GetLightsOn(input)}");
+Console.WriteLine($"Part 2 - Light On: {GetLightsOn(inputP2)}");
 
 
 int GetLightsOn(List<List<char>> input)
@@ -82,7 +133,7 @@ void DrawSimulation(List<List<char>> input)
         Console.Write("\n");
     }
 }
-List<List<char>> RunSimulation(List<List<char>> input)
+List<List<char>> RunSimulation(List<List<char>> input, bool faultyLights)
 {
     List<List<char>> newInput = new();
 
@@ -189,6 +240,29 @@ List<List<char>> RunSimulation(List<List<char>> input)
                 }
             }
 
+
+            if (faultyLights)
+            {
+                if (i == 0 && j == 0)
+                {
+                    newInput[i][j] = '#';
+                }
+
+                if (i == 0 && j == newInput[i].Count - 1)
+                {
+                    newInput[i][j] = '#';
+                }
+
+                if (i == newInput.Count - 1 && j == 0)
+                {
+                    newInput[i][j] = '#';
+                }
+
+                if (i == newInput.Count - 1 && j == newInput[i].Count - 1)
+                {
+                    newInput[i][j] = '#';
+                }
+            }
 
 
         }
