@@ -1,4 +1,6 @@
-﻿var input = File.ReadAllLines("input");
+﻿using System.Diagnostics;
+
+var input = File.ReadAllLines("input");
 
 //Test input
 //input = ["20", "15", "10", "5", "5"];
@@ -19,8 +21,11 @@ foreach (var container in containers)
 int max = 150;
 int loops = 0;
 Dictionary<string, List<List<(int Index, int Size)>>> cache = new();
-
+Stopwatch stopwatch = new Stopwatch();
+stopwatch.Start();
 List<List<(int Index, int Size)>> combos = FindCombos(new List<(int Index, int Size)>(), 0, containers);
+stopwatch.Stop();
+Console.WriteLine($"Elapsed Time: {stopwatch.Elapsed.TotalSeconds}s");
 
 List<List<(int Index, int Size)>> FindCombos(List<(int Index, int Size)> combo, int sum, List<(int Index, int Size)> containers)
 {

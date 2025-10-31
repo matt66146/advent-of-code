@@ -65,22 +65,23 @@ for (int i = 0; i < inputP2.Count; i++)
 for (int i = 0; i < numSteps; i++)
 {
     input = RunSimulation(input, false);
-    Console.Clear();
-    //Console.WriteLine("\x1b[3J");
+    //Console.Clear();
+    Console.WriteLine("\x1b[3J");
     DrawSimulation(input);
-    Thread.Sleep(millisecondsTimeout: 16);
+    Thread.Sleep(millisecondsTimeout: 100);
     //Console.ReadKey();
 }
-Console.Clear();
+//Console.Clear();
+Console.WriteLine("\x1b[3J");
 Console.WriteLine("Part 2 in 5 seconds...");
 Thread.Sleep(millisecondsTimeout: 5000);
 for (int i = 0; i < numSteps; i++)
 {
     inputP2 = RunSimulation(inputP2, true);
-    Console.Clear();
-    //Console.WriteLine("\x1b[3J");
+    //Console.Clear();
+    Console.WriteLine("\x1b[3J");
     DrawSimulation(inputP2);
-    Thread.Sleep(millisecondsTimeout: 16);
+    Thread.Sleep(millisecondsTimeout: 100);
     //Console.ReadKey();
 }
 Console.CursorVisible = true;
