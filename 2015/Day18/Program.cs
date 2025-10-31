@@ -1,4 +1,4 @@
-﻿var f = File.ReadAllLines("testInput");
+﻿var f = File.ReadAllLines("input");
 
 List<List<char>> input = new List<List<char>>();
 Console.CursorVisible = false;
@@ -13,9 +13,9 @@ foreach (var line in f)
     input.Add(lineArray);
 }
 
-int numSteps = 4;
+int numSteps = 100;
 Console.Clear();
-DrawSimulation(input);
+//DrawSimulation(input);
 //Thread.Sleep(1000);
 //Console.WriteLine(GetLightsOn(input));
 //Console.ReadKey();
@@ -24,10 +24,10 @@ DrawSimulation(input);
 for (int i = 0; i < numSteps; i++)
 {
     input = RunSimulation(input);
-    Console.Clear();
-    Console.WriteLine("\x1b[3J");
-    DrawSimulation(input);
-    Thread.Sleep(millisecondsTimeout: 100);
+    //Console.Clear();
+    //Console.WriteLine("\x1b[3J");
+    //rawSimulation(input);
+    //Thread.Sleep(millisecondsTimeout: 100);
     //Console.ReadKey();
 }
 Console.WriteLine(GetLightsOn(input));
@@ -98,70 +98,77 @@ List<List<char>> RunSimulation(List<List<char>> input)
 
     for (int i = 0; i < input.Count; i++)
     {
-        //Console.WriteLine(string.Join("", newInput[i]));
         for (int j = 0; j < input[i].Count; j++)
         {
             int numNeighbors = 0;
-            List<char> neighbors = new();
 
             //left
             if (j > 0)
             {
-                neighbors.Add(input[i][j - 1]);
+                if (input[i][j - 1] == '#')
+                {
+                    numNeighbors++;
+                }
             }
-
 
             //right
             if (j < input[i].Count - 1)
             {
-                neighbors.Add(input[i][j + 1]);
+                if (input[i][j + 1] == '#')
+                {
+                    numNeighbors++;
+                }
             }
-
 
             //up
             if (i > 0)
             {
-                neighbors.Add(input[i - 1][j]);
+                if (input[i - 1][j] == '#')
+                {
+                    numNeighbors++;
+                }
             }
-
 
             //down
             if (i < input.Count - 1)
             {
-                neighbors.Add(input[i + 1][j]);
+                if (input[i + 1][j] == '#')
+                {
+                    numNeighbors++;
+                }
             }
-
 
             //topLeft
             if (i > 0 && j > 0)
             {
-                neighbors.Add(input[i - 1][j - 1]);
+                if (input[i - 1][j - 1] == '#')
+                {
+                    numNeighbors++;
+                }
             }
-
 
             //topRight
             if (i > 0 && j < input[i].Count - 1)
             {
-                neighbors.Add(input[i - 1][j + 1]);
+                if (input[i - 1][j + 1] == '#')
+                {
+                    numNeighbors++;
+                }
             }
-
 
             //bottomLeft
             if (i < input.Count - 1 && j > 0)
             {
-                neighbors.Add(input[i + 1][j - 1]);
+                if (input[i + 1][j - 1] == '#')
+                {
+                    numNeighbors++;
+                }
             }
-
 
             //bottomRight
             if (i < input.Count - 1 && j < input[i].Count - 1)
             {
-                neighbors.Add(input[i + 1][j + 1]);
-            }
-
-            foreach (var neighbor in neighbors)
-            {
-                if (neighbor == '#')
+                if (input[i + 1][j + 1] == '#')
                 {
                     numNeighbors++;
                 }
