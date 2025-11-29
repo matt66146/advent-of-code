@@ -13,27 +13,27 @@ class Program
         {
             if (spell.Name == "Shield")
             {
-                Console.WriteLine("");
+                Console.Write("");
             }
             StartTurn(CopyPlayer(player), CopyBoss(boss), spell, manaSpent);
         }
-
+        Console.WriteLine(manaSpent.Count);
         manaSpent.Sort();
         Console.WriteLine(string.Join(",", manaSpent));
         Console.WriteLine($"Min Mana Spent: {manaSpent[0]}");
 
     }
 
-    private static void AddToList(List<int> manaSpent)
-    {
-        for (int i = 0; i < 100; i++)
-        {
-            manaSpent.Add(i);
-        }
-    }
-
     static void StartTurn(Wizard player, Character boss, Spell spell, List<int> manaSpent)
     {
+        if (player.ActiveEffects.Count > 1)
+        {
+            Console.Write("");
+        }
+        if (player.ActiveEffects.Count > 0 && spell.Name == "Recharge")
+        {
+            Console.Write("");
+        }
         //Check if spell can be cast again
         var e = boss.ActiveEffects.Find(effect => effect.Name == spell.Name) ?? player.ActiveEffects.Find(effect => effect.Name == spell.Name);
 
@@ -45,34 +45,7 @@ class Program
         //Check if player has enough mana
         if (player.Mana < spell.ManaCost) return;
 
-        //Check player effects
-        var effectsToRemove = new List<Spell>();
-        foreach (var effect in player.ActiveEffects)
-        {
-            player.Mana += effect.ManaGain;
-            player.Armor = effect.Armor;
-            effect.Duration--;
-            if (effect.Duration == 0) effectsToRemove.Add(effect);
-        }
-        foreach (var effect in effectsToRemove)
-        {
-            player.ActiveEffects.Remove(effect);
-            player.Armor -= effect.Armor;
-        }
-
-        //Check boss effects
-        effectsToRemove = new List<Spell>();
-        foreach (var effect in boss.ActiveEffects)
-        {
-            boss.Hp -= effect.Damage;
-            effect.Duration--;
-            if (effect.Duration == 0) effectsToRemove.Add(effect);
-        }
-        foreach (var effect in effectsToRemove)
-        {
-            boss.ActiveEffects.Remove(effect);
-        }
-
+        TickEffects(player, boss);
 
         //Spend Mana
         player.Mana -= spell.ManaCost;
@@ -104,8 +77,43 @@ class Program
         }
 
         //boss turn
+        TickEffects(player, boss);
+        if (boss.Hp > 0)
+        {
+
+            player.Hp -= Math.Max(boss.Damage - player.Armor, 1);
+            if (player.Hp <= 0)
+            {
+                return;
+            }
+        }
+        else
+        {
+            manaSpent.Add(player.ManaSpent);
+            manaSpent.Sort();
+            Console.WriteLine(manaSpent.First());
+            return;
+        }
+
+
+        //if still alive
+        foreach (var nextSpell in player.Spells)
+        {
+            if (spell.Name == "Recharge" && player.Hp == 48)
+            {
+                Console.Write("");
+            }
+            StartTurn(CopyPlayer(player), CopyBoss(boss), nextSpell, manaSpent);
+        }
+
+
+    }
+
+
+    static void TickEffects(Wizard player, Character boss)
+    {
         //Check player effects
-        effectsToRemove = new List<Spell>();
+        var effectsToRemove = new List<Spell>();
         foreach (var effect in player.ActiveEffects)
         {
             player.Mana += effect.ManaGain;
@@ -132,33 +140,7 @@ class Program
             boss.ActiveEffects.Remove(effect);
         }
 
-        if (boss.Hp > 0)
-        {
-
-            player.Hp -= Math.Max(boss.Damage - player.Armor, 1);
-            if (player.Hp <= 0)
-            {
-                return;
-            }
-        }
-        else
-        {
-            manaSpent.Add(player.ManaSpent);
-            manaSpent.Sort();
-            Console.WriteLine(manaSpent.First());
-            return;
-        }
-
-
-        //if still alive
-        foreach (var nextSpell in player.Spells)
-        {
-            StartTurn(CopyPlayer(player), CopyBoss(boss), nextSpell, manaSpent);
-        }
-
-
     }
-
 
     static Wizard CopyPlayer(Wizard player)
     {
