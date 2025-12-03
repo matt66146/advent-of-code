@@ -99,7 +99,11 @@ class Program
         //if still alive
         foreach (var nextSpell in player.Spells)
         {
-            if (spell.Name == "Recharge" && player.Hp == 48)
+            if (player.Hp == 48)
+            {
+                Console.Write("");
+            }
+            if (nextSpell.Name == "Recharge" && player.Hp == 48)
             {
                 Console.Write("");
             }
