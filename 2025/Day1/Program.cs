@@ -12,52 +12,39 @@ Calc(position, f);
 static void Calc(int position, string[] f)
 {
     int answer = 0;
+    int answerP1 = 0;
     foreach (var line in f)
     {
-        int change = Int32.Parse(line.Substring(1, line.Length - 1));
-        answer += (change - position) / 100;
-        if ((change - position) / 100 > 0)
+        int change = Int32.Parse(line.Substring(1));
+
+
+        if (line[0] == 'R')
         {
-            Console.WriteLine("***");
-            Console.WriteLine(position);
-            Console.WriteLine(line);
-            Console.WriteLine((change - position) / 100);
-        }
-        if (line[0] == 'L')
-        {
-            if (position - change <= 0 && position != 0)
-            {
-                answer++;
-                if ((change - position) / 100 > 0)
-                {
-                    Console.WriteLine("+1");
-                }
-            }
-            position = (position - change) % 100;
-            if (position < 0)
-            {
-                position += 100;
-            }
+            answer += (position + change) / 100;
+            position = (position + (change % 100)) % 100;
         }
         else
         {
-            if (position + change >= 100)
+            int newPosition = (position - change) % 100;
+            if (position == 0)
+            {
+                answer += change / 100;
+            }
+            else if (change > position)
+            {
+                answer += ((change - position - 1) / 100) + 1;
+                if (newPosition == 0) answer++;
+            }
+            else if (change == position)
             {
                 answer++;
-                if ((change - position) / 100 > 0)
-                {
-                    Console.WriteLine("+1");
-                }
             }
-            position = (position + change) % 100;
+            position = newPosition;
         }
 
-        //Console.WriteLine(answer);
-
     }
-    Console.WriteLine($"Answer: {answer}");
+    Console.WriteLine($"Answer Part 2: {answer}");
 }
-
 
 static void BadCalcWTF(int position, string[] f)
 {
