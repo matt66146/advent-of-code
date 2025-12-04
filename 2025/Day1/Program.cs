@@ -3,13 +3,13 @@
 var f = File.ReadAllLines("testinput.txt");
 
 Console.WriteLine("*Test Input*");
-Calc(position, f);
+CalcBruteForce(position, f);
 f = File.ReadAllLines("input.txt");
 Console.WriteLine("*Real Input*");
-Calc(position, f);
+CalcBruteForce(position, f);
 
 
-static void Calc(int position, string[] f)
+static void CalcMath(int position, string[] f)
 {
     int answer = 0;
     int answerP1 = 0;
@@ -46,7 +46,7 @@ static void Calc(int position, string[] f)
     Console.WriteLine($"Answer Part 2: {answer}");
 }
 
-static void BadCalcWTF(int position, string[] f)
+static void CalcBruteForce(int position, string[] f)
 {
     int answer = 0;
 
