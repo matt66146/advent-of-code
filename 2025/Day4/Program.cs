@@ -18,6 +18,11 @@ static void Part1(string[] input, int rowLength, int columnLength)
     Console.WriteLine($"Part 1: {answer}");
 
 }
+static void Part2(string[] input, int rowLength, int columnLength)
+{
+    int answer = RemoveRollsPart2(input, rowLength, columnLength);
+    Console.WriteLine($"Part 2: {answer}");
+}
 
 static int RemoveRolls(string[] input, int rowLength, int columnLength)
 {
@@ -69,13 +74,6 @@ static int RemoveRollsPart2(string[] input, int rowLength, int columnLength)
     }
     return numRollsRemoved;
 }
-
-static void Part2(string[] input, int rowLength, int columnLength)
-{
-    int answer = RemoveRollsPart2(input, rowLength, columnLength);
-    Console.WriteLine($"Part 2: {answer}");
-}
-
 
 static bool ForkLiftCanAccess(int x, int y, string[] input)
 {
