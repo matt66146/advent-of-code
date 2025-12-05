@@ -3,7 +3,6 @@
 var input = File.ReadAllLines("input.txt");
 int rowLength = input[0].Length;
 int columnLength = input.Length;
-//int[,] coords = new int[rowLength, columnLength];
 
 Part1(input, rowLength, columnLength);
 Part2(input, rowLength, columnLength);
