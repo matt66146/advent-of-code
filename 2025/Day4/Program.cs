@@ -12,21 +12,7 @@ Part2(input, rowLength, columnLength);
 
 static void Part1(string[] input, int rowLength, int columnLength)
 {
-
-    int answer = RemoveRolls(input, rowLength, columnLength);
-
-    Console.WriteLine($"Part 1: {answer}");
-
-}
-static void Part2(string[] input, int rowLength, int columnLength)
-{
-    int answer = RemoveRollsPart2(input, rowLength, columnLength);
-    Console.WriteLine($"Part 2: {answer}");
-}
-
-static int RemoveRolls(string[] input, int rowLength, int columnLength)
-{
-    int numRollsRemoved = 0;
+    int answer = 0;
 
     for (int y = 0; y < rowLength; y++)
     {
@@ -36,15 +22,22 @@ static int RemoveRolls(string[] input, int rowLength, int columnLength)
             {
                 if (ForkLiftCanAccess(x, y, input))
                 {
-                    numRollsRemoved++;
+                    answer++;
                 }
             }
         }
     }
-    return numRollsRemoved;
+
+    Console.WriteLine($"Part 1: {answer}");
+
+}
+static void Part2(string[] input, int rowLength, int columnLength)
+{
+    int answer = RemoveRolls(input, rowLength, columnLength);
+    Console.WriteLine($"Part 2: {answer}");
 }
 
-static int RemoveRollsPart2(string[] input, int rowLength, int columnLength)
+static int RemoveRolls(string[] input, int rowLength, int columnLength)
 {
     int numRollsRemoved = 0;
     List<(int, int)> removedCoords = new();
@@ -70,7 +63,7 @@ static int RemoveRollsPart2(string[] input, int rowLength, int columnLength)
     }
     if (numRollsRemoved > 0)
     {
-        numRollsRemoved += RemoveRollsPart2(input, rowLength, columnLength);
+        numRollsRemoved += RemoveRolls(input, rowLength, columnLength);
     }
     return numRollsRemoved;
 }
