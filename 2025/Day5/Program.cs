@@ -8,7 +8,7 @@ List<ulong> ingredients = new();
 GenerateData(input, ranges, ingredients);
 
 Part1(ranges, ingredients);
-Part2(input, ranges, ingredients);
+Part2(input, ranges);
 
 
 static void Part1(List<(ulong Start, ulong End)> ranges, List<ulong> ingredients)
@@ -30,9 +30,9 @@ static void Part1(List<(ulong Start, ulong End)> ranges, List<ulong> ingredients
     Console.WriteLine($"Part 1: {answer}");
 
 }
-static void Part2(string[] input, List<(ulong Start, ulong End)> ranges, List<ulong> ingredients)
+static void Part2(string[] input, List<(ulong Start, ulong End)> ranges)
 {
-    GenerateDataPart2(input, ranges, ingredients);
+    GenerateDataPart2(input, ranges);
     ulong answer = 0;
 
     foreach (var range in ranges)
@@ -90,7 +90,7 @@ static void GenerateData(string[] input, List<(ulong Start, ulong End)> ranges, 
     }
 }
 
-static void GenerateDataPart2(string[] input, List<(ulong Start, ulong End)> ranges, List<ulong> ingredients)
+static void GenerateDataPart2(string[] input, List<(ulong Start, ulong End)> ranges)
 {
     bool foundChange = false;
     for (int i = 0; i < ranges.Count; i++)
@@ -129,7 +129,7 @@ static void GenerateDataPart2(string[] input, List<(ulong Start, ulong End)> ran
             }
         }
     }
-    if (foundChange) GenerateDataPart2(input, ranges, ingredients);
+    if (foundChange) GenerateDataPart2(input, ranges);
 }
 
 
