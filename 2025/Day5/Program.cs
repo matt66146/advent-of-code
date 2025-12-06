@@ -97,35 +97,39 @@ static void GenerateDataPart2(string[] input, List<(ulong Start, ulong End)> ran
     {
         for (int j = i + 1; j < ranges.Count; j++)
         {
-            //end
             if (ranges[j].End >= ranges[i].Start && ranges[j].End <= ranges[i].End)
             {
                 ulong start = ranges[j].Start;
                 ulong end = ranges[i].Start - 1;
-                if (start > end)
+
+                if (end < start)
                 {
-                    start = end;
+                    ranges.Remove(ranges[j]);
                 }
-                ranges[j] = (start, end);
+                else
+                {
+                    ranges[j] = (start, end);
+                }
                 foundChange = true;
             }
             else if (ranges[i].End >= ranges[j].Start && ranges[i].End <= ranges[j].End)
             {
                 ulong start = ranges[i].Start;
                 ulong end = ranges[j].Start - 1;
-                if (start > end)
+
+                if (end < start)
                 {
-                    start = end;
+                    ranges.Remove(ranges[i]);
                 }
-                ranges[i] = (start, end);
+                else
+                {
+                    ranges[i] = (start, end);
+                }
                 foundChange = true;
             }
-
-
         }
     }
     if (foundChange) GenerateDataPart2(input, ranges, ingredients);
-    //Console.WriteLine(string.Join("\n", ranges));
 }
 
 
