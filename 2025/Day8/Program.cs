@@ -13,51 +13,62 @@ for (int i = 0; i < input.Length; i++)
 
 PrintCircuits(circuits);
 
-
-double smallestDistance = ulong.MaxValue;
-JunctionBox? s1 = null;
-JunctionBox? s2 = null;
-
-
-for (int i = 0; i < circuits.Count; i++)
+for (int n = 0; n < 10; n++)
 {
-    for (int j = i + 1; j < circuits.Count; j++)
+
+
+    double smallestDistance = ulong.MaxValue;
+    JunctionBox? s1 = null;
+    JunctionBox? s2 = null;
+
+
+    for (int i = 0; i < circuits.Count; i++)
     {
-        for (int k = 0; k < circuits[i].Count; k++)
+        for (int j = i + 1; j < circuits.Count; j++)
         {
-            for (int l = 0; l < circuits[j].Count; l++)
+            for (int k = 0; k < circuits[i].Count; k++)
             {
-                var distance = CalculateDistance(circuits[i][k], circuits[j][l]);
-                if (distance < smallestDistance)
+                for (int l = 0; l < circuits[j].Count; l++)
                 {
-                    smallestDistance = distance;
-                    s1 = circuits[i][k];
-                    s2 = circuits[j][l];
+                    var distance = CalculateDistance(circuits[i][k], circuits[j][l]);
+                    if (distance < smallestDistance)
+                    {
+                        smallestDistance = distance;
+                        s1 = circuits[i][k];
+                        s2 = circuits[j][l];
+                    }
                 }
             }
-        }
 
+
+        }
+    }
+    Console.WriteLine(smallestDistance);
+    Console.WriteLine(s1?.Circuit);
+    Console.WriteLine(s2?.Circuit);
+
+    if (s1 is null) throw new Exception("s1 error!");
+    if (s2 is null) throw new Exception("s2 error!");
+    Console.WriteLine(circuits[s2.Circuit].Count);
+
+    for (int i = 0; i < circuits[s2.Circuit].Count; i++)
+    {
+        PrintCircuits(circuits);
+
+        circuits[s1.Circuit].Add(circuits[s2.Circuit][i]);
 
     }
-}
-Console.WriteLine(smallestDistance);
-Console.WriteLine(s1?.Circuit);
-Console.WriteLine(s2?.Circuit);
+    circuits.Remove(s2.Circuit);
 
-if (s1 is null) throw new Exception("s1 error!");
-if (s2 is null) throw new Exception("s2 error!");
-Console.WriteLine(circuits[s2.Circuit].Count);
-for (int i = 0; i < circuits[s2.Circuit].Count; i++)
-{
+    for (int i = 0; i < circuits[s1.Circuit].Count; i++)
+    {
+        circuits[s1.Circuit][i].Circuit = s1.Circuit;
+    }
+
+
     PrintCircuits(circuits);
-    circuits[s2.Circuit][i].Circuit = s1.Circuit;
-    circuits[s1.Circuit].Add(circuits[s2.Circuit][i]);
+
 }
-circuits.Remove(s2.Circuit);
-
-
-PrintCircuits(circuits);
-
 void PrintCircuits(Dictionary<int, List<JunctionBox>> circuits)
 {
     Console.WriteLine("WTF");
