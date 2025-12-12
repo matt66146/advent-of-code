@@ -1,87 +1,53 @@
-﻿var input = File.ReadAllLines("testInput.txt");
-Dictionary<int, List<JunctionBox>> circuits = new();
-SortedList<int, int> circuitSizes = new();
+﻿var input = File.ReadAllLines("input.txt");
+List<JunctionBox> junctionBoxes = new();
 
 for (int i = 0; i < input.Length; i++)
 {
     var data = input[i].Split(",");
-    circuits.Add(i, new());
-    circuits[i].Add(new JunctionBox() { X = Int32.Parse(data[0]), Y = Int32.Parse(data[1]), Z = Int32.Parse(data[2]), Circuit = i });
-    circuitSizes.Add(i, 1);
+    junctionBoxes.Add(new JunctionBox() { X = Int32.Parse(data[0]), Y = Int32.Parse(data[1]), Z = Int32.Parse(data[2]), Circuit = i });
 }
 
+//Console.WriteLine(string.Join("\n", junctionBoxes.Select(x => x.ToString())));
 
-PrintCircuits(circuits);
+SortedSet<Distance> distances = new(Comparer<Distance>.Create((a, b) => a.Value.CompareTo(b.Value)));
 
-for (int n = 0; n < 10; n++)
+for (int i = 0; i < junctionBoxes.Count - 1; i++)
 {
-
-
-    double smallestDistance = ulong.MaxValue;
-    JunctionBox? s1 = null;
-    JunctionBox? s2 = null;
-
-
-    for (int i = 0; i < circuits.Count; i++)
+    for (int j = i + 1; j < junctionBoxes.Count; j++)
     {
-        for (int j = i + 1; j < circuits.Count; j++)
-        {
-            for (int k = 0; k < circuits[i].Count; k++)
-            {
-                for (int l = 0; l < circuits[j].Count; l++)
-                {
-                    var distance = CalculateDistance(circuits[i][k], circuits[j][l]);
-                    if (distance < smallestDistance)
-                    {
-                        smallestDistance = distance;
-                        s1 = circuits[i][k];
-                        s2 = circuits[j][l];
-                    }
-                }
-            }
-
-
-        }
+        distances.Add(new Distance() { A = junctionBoxes[i], B = junctionBoxes[j], Value = CalculateDistance(junctionBoxes[i], junctionBoxes[j]) });
     }
-    Console.WriteLine(smallestDistance);
-    Console.WriteLine(s1?.Circuit);
-    Console.WriteLine(s2?.Circuit);
-
-    if (s1 is null) throw new Exception("s1 error!");
-    if (s2 is null) throw new Exception("s2 error!");
-    Console.WriteLine(circuits[s2.Circuit].Count);
-
-    for (int i = 0; i < circuits[s2.Circuit].Count; i++)
-    {
-        PrintCircuits(circuits);
-
-        circuits[s1.Circuit].Add(circuits[s2.Circuit][i]);
-
-    }
-    circuits.Remove(s2.Circuit);
-
-    for (int i = 0; i < circuits[s1.Circuit].Count; i++)
-    {
-        circuits[s1.Circuit][i].Circuit = s1.Circuit;
-    }
-
-
-    PrintCircuits(circuits);
-
 }
-void PrintCircuits(Dictionary<int, List<JunctionBox>> circuits)
+
+//Console.WriteLine(string.Join("\n", distances.Select(x => x.ToString())));
+
+for (int i = 0; i < 999; i++)
 {
-    Console.WriteLine("WTF");
-    foreach (var circuit in circuits)
+    Console.WriteLine($"B: {distances.ElementAt(i).B} - A: {distances.ElementAt(i).A}");
+    var A = junctionBoxes[distances.ElementAt(i).A.Circuit].Circuit;
+    var B = junctionBoxes[distances.ElementAt(i).B.Circuit].Circuit;
+    if (A < B)
     {
-        foreach (var box in circuit.Value)
-        {
-            Console.WriteLine($"x={box.X}, y={box.Y}, z={box.Z}, circuit={box.Circuit}");
-        }
+        junctionBoxes[distances.ElementAt(i).B.Circuit].Circuit = junctionBoxes[distances.ElementAt(i).A.Circuit].Circuit;
+    }
+    else
+    {
+        junctionBoxes[distances.ElementAt(i).A.Circuit].Circuit = junctionBoxes[distances.ElementAt(i).B.Circuit].Circuit;
     }
 
 }
 
+var test = junctionBoxes.GroupBy(x => x.Circuit).Select(x => x.Select(y => y.Circuit).ToList()).ToList();
+test = test.OrderByDescending(x => x.Count).ToList();
+int answer = 1;
+for (int i = 0; i < 3; i++)
+{
+    Console.WriteLine(test[i].Count);
+    answer *= test[i].Count;
+}
+//Console.WriteLine(string.Join("\n", junctionBoxes.OrderBy(x => x.Circuit).Select(x => x.ToString())));
+
+Console.WriteLine($"Part 1: {answer}");
 static double CalculateDistance(JunctionBox circuit1, JunctionBox circuit2)
 {
     return Math.Sqrt(
@@ -104,4 +70,21 @@ class JunctionBox
     public int Y { get; set; }
     public int Z { get; set; }
     public int Circuit { get; set; }
+
+    public override string ToString()
+    {
+        return $"X: {X}, Y: {Y}, Z: {Z}, Circuit: {Circuit}";
+    }
+}
+
+class Distance
+{
+    public JunctionBox A { get; set; } = new();
+    public JunctionBox B { get; set; } = new();
+    public double Value { get; set; }
+
+    public override string ToString()
+    {
+        return $"A: {A.Circuit}, B: {B.Circuit}, Distance: {Value}";
+    }
 }
