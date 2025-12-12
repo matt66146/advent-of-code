@@ -21,19 +21,18 @@ for (int i = 0; i < junctionBoxes.Count - 1; i++)
 
 //Console.WriteLine(string.Join("\n", distances.Select(x => x.ToString())));
 
-for (int i = 0; i < 999; i++)
+for (int i = 0; i < 1000; i++)
 {
     Console.WriteLine($"B: {distances.ElementAt(i).B} - A: {distances.ElementAt(i).A}");
     var A = junctionBoxes[distances.ElementAt(i).A.Circuit].Circuit;
     var B = junctionBoxes[distances.ElementAt(i).B.Circuit].Circuit;
-    if (A < B)
+
+
+    foreach (var box in junctionBoxes)
     {
-        junctionBoxes[distances.ElementAt(i).B.Circuit].Circuit = junctionBoxes[distances.ElementAt(i).A.Circuit].Circuit;
+        if (box.Circuit == B) box.Circuit = A;
     }
-    else
-    {
-        junctionBoxes[distances.ElementAt(i).A.Circuit].Circuit = junctionBoxes[distances.ElementAt(i).B.Circuit].Circuit;
-    }
+
 
 }
 
@@ -42,9 +41,10 @@ test = test.OrderByDescending(x => x.Count).ToList();
 int answer = 1;
 for (int i = 0; i < 3; i++)
 {
-    Console.WriteLine(test[i].Count);
+    //Console.WriteLine(test[i].Count);
     answer *= test[i].Count;
 }
+//Console.WriteLine(string.Join("\n", test.Select(x => x.Count)));
 //Console.WriteLine(string.Join("\n", junctionBoxes.OrderBy(x => x.Circuit).Select(x => x.ToString())));
 
 Console.WriteLine($"Part 1: {answer}");
